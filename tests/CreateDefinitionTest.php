@@ -29,7 +29,7 @@ class CreateDefinitionTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf('stdClass', $container->get('stdClass'));
     }
 
-    public function test_create_with_constructor_arguments()
+    public function test_inject_constructor_arguments()
     {
         $fixture = new class() {
             public function __construct()
@@ -45,6 +45,21 @@ class CreateDefinitionTest extends \PHPUnit_Framework_TestCase
                 ->constructor('abc', 'def'),
         ]);
         self::assertEquals(['abc', 'def'], $container->get('foo')->arguments);
+    }
+
+    public function test_inject_in_public_property()
+    {
+        $fixture = new class() {
+            public $foo;
+        };
+        $className = get_class($fixture);
+
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'foo' => create($className)
+                ->property('foo', 'bar'),
+        ]);
+        self::assertEquals('bar', $container->get('foo')->foo);
     }
 
     public function test_same_method_can_be_called_multiple_times()
