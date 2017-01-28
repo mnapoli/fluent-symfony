@@ -62,6 +62,24 @@ class CreateDefinitionTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('bar', $container->get('foo')->foo);
     }
 
+    public function test_inject_in_method()
+    {
+        $fixture = new class() {
+            public function setSomething()
+            {
+                $this->arguments = func_get_args();
+            }
+        };
+        $className = get_class($fixture);
+
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'foo' => create($className)
+                ->method('setSomething', 'abc', 'def'),
+        ]);
+        self::assertEquals(['abc', 'def'], $container->get('foo')->arguments);
+    }
+
     public function test_same_method_can_be_called_multiple_times()
     {
         $fixture = new class() {
