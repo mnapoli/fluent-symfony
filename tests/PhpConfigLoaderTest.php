@@ -34,12 +34,26 @@ class PhpConfigLoaderTest extends \PHPUnit_Framework_TestCase
     public function loads_a_php_config_into_the_container()
     {
         $container = new ContainerBuilder;
-        $loader = new PhpConfigLoader($container);
 
-        $loader->load([
+        (new PhpConfigLoader($container))->load([
             'foo' => 'bar',
         ]);
 
+        self::assertEquals('bar', $container->getParameter('foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function casts_raw_values_into_parameters()
+    {
+        $container = new ContainerBuilder;
+
+        (new PhpConfigLoader($container))->load([
+            'foo' => 'bar',
+        ]);
+
+        self::assertTrue($container->hasParameter('foo'));
         self::assertEquals('bar', $container->getParameter('foo'));
     }
 }
