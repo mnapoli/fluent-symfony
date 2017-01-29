@@ -40,6 +40,16 @@ class PhpConfigFileLoader extends FileLoader
             throw new \Exception(sprintf('The configuration file %s must return an array', $path));
         }
 
+        // Process imports
+        foreach ($definitions as $entryId => $definition) {
+            if ($definition instanceof Import) {
+                // Import the resource
+                $this->import($definition->getResource());
+                // Remove it from the array
+                unset($definitions[$entryId]);
+            }
+        }
+
         $this->loader->load($definitions);
     }
 

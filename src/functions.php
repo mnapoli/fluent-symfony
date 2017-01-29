@@ -39,3 +39,13 @@ if (!function_exists('PhpSymfonyConfig\get')) {
         return new Reference($entryId);
     }
 }
+
+if (!function_exists('PhpSymfonyConfig\import')) {
+    /**
+     * Import another configuration file.
+     */
+    function import(string $resource) : Import
+    {
+        return new Import($resource);
+    }
+}
