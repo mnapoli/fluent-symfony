@@ -24,7 +24,7 @@ class CreateDefinitionHelper implements DefinitionHelper
      * @param string|null $className Class name of the object.
      *                               If null, the name of the entry (in the container) will be used as class name.
      */
-    public function __construct($className = null)
+    public function __construct(string $className = null)
     {
         $this->definition = new Definition($className);
     }
@@ -42,10 +42,8 @@ class CreateDefinitionHelper implements DefinitionHelper
      * Define the entry as lazy.
      *
      * A lazy entry is created only when it is used, a proxy is injected instead.
-     *
-     * @return CreateDefinitionHelper
      */
-    public function lazy()
+    public function lazy() : self
     {
         $this->definition->setLazy(true);
 
@@ -58,13 +56,11 @@ class CreateDefinitionHelper implements DefinitionHelper
      * This method takes a variable number of arguments, example:
      *     ->constructor($param1, $param2, $param3)
      *
-     * @param mixed ... Parameters to use for calling the constructor of the class.
-     *
-     * @return CreateDefinitionHelper
+     * @param mixed ... Arguments to use for calling the constructor of the class.
      */
-    public function constructor()
+    public function constructor(...$arguments) : self
     {
-        $this->definition->setArguments(func_get_args());
+        $this->definition->setArguments($arguments);
 
         return $this;
     }
@@ -74,10 +70,8 @@ class CreateDefinitionHelper implements DefinitionHelper
      *
      * @param string $property Entry in which to inject the value.
      * @param mixed  $value    Value to inject in the property.
-     *
-     * @return CreateDefinitionHelper
      */
-    public function property($property, $value)
+    public function property(string $property, $value) : self
     {
         $this->definition->setProperty($property, $value);
 
@@ -94,16 +88,11 @@ class CreateDefinitionHelper implements DefinitionHelper
      * Can be used multiple times to declare multiple calls.
      *
      * @param string $method Name of the method to call.
-     * @param mixed  ...     Parameters to use for calling the method.
-     *
-     * @return CreateDefinitionHelper
+     * @param mixed  ...     Arguments to use for calling the method.
      */
-    public function method($method)
+    public function method(string $method, ...$arguments) : self
     {
-        $args = func_get_args();
-        array_shift($args);
-
-        $this->definition->addMethodCall($method, $args);
+        $this->definition->addMethodCall($method, $arguments);
 
         return $this;
     }
