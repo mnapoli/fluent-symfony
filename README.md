@@ -1,5 +1,7 @@
 # Fluent configuration for Symfony
 
+**Work in progress: this package is under development**
+
 This package offers a better configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
 
 ## Comparison with existing formats
