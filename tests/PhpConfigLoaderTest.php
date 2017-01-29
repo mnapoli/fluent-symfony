@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace PhpSymfonyConfig\Test;
+namespace Fluent\Test;
 
-use PhpSymfonyConfig\PhpConfigLoader;
+use Fluent\PhpConfigLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class PhpConfigLoaderTest extends \PHPUnit_Framework_TestCase

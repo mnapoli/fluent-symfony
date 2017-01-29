@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace PhpSymfonyConfig\DefinitionHelper;
+namespace Fluent\DefinitionHelper;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

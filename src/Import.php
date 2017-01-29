@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace PhpSymfonyConfig;
+namespace Fluent;
 
 /**
  * Import another configuration file.

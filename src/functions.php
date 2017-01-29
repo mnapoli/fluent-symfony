@@ -1,16 +1,18 @@
 <?php
 declare(strict_types = 1);
 
-namespace PhpSymfonyConfig;
+namespace Fluent;
 
-use PhpSymfonyConfig\DefinitionHelper\AliasDefinitionHelper;
-use PhpSymfonyConfig\DefinitionHelper\CreateDefinitionHelper;
-use PhpSymfonyConfig\DefinitionHelper\FactoryDefinitionHelper;
+use Fluent\DefinitionHelper\AliasDefinitionHelper;
+use Fluent\DefinitionHelper\CreateDefinitionHelper;
+use Fluent\DefinitionHelper\FactoryDefinitionHelper;
 use Symfony\Component\DependencyInjection\Reference;
 
-if (!function_exists('PhpSymfonyConfig\create')) {
+// This `if` avoids errors if importing the file twice
+if (!function_exists('Fluent\create')) {
+
     /**
-     * Helper for defining an object.
+     * Helper for defining a service created by instantiating a class.
      *
      * @param string|null $className Class name of the object.
      *                               If null, the name of the entry (in the container) will be used as class name.
@@ -19,9 +21,7 @@ if (!function_exists('PhpSymfonyConfig\create')) {
     {
         return new CreateDefinitionHelper($className);
     }
-}
 
-if (!function_exists('PhpSymfonyConfig\alias')) {
     /**
      * Helper for defining an alias.
      */
@@ -29,9 +29,7 @@ if (!function_exists('PhpSymfonyConfig\alias')) {
     {
         return new AliasDefinitionHelper($targetEntryId);
     }
-}
 
-if (!function_exists('PhpSymfonyConfig\get')) {
     /**
      * Reference to another service.
      */
@@ -39,9 +37,7 @@ if (!function_exists('PhpSymfonyConfig\get')) {
     {
         return new Reference($entryId);
     }
-}
 
-if (!function_exists('PhpSymfonyConfig\factory')) {
     /**
      * Create a service using a factory
      *
@@ -51,9 +47,7 @@ if (!function_exists('PhpSymfonyConfig\factory')) {
     {
         return new FactoryDefinitionHelper($factory);
     }
-}
 
-if (!function_exists('PhpSymfonyConfig\import')) {
     /**
      * Import another configuration file.
      */
@@ -61,4 +55,5 @@ if (!function_exists('PhpSymfonyConfig\import')) {
     {
         return new Import($resource);
     }
+
 }

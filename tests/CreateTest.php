@@ -1,10 +1,10 @@
 <?php
 
-namespace PhpSymfonyConfig\Test;
+namespace Fluent\Test;
 
-use function PhpSymfonyConfig\create;
-use function PhpSymfonyConfig\get;
-use PhpSymfonyConfig\PhpConfigLoader;
+use function Fluent\create;
+use function Fluent\get;
+use Fluent\PhpConfigLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**

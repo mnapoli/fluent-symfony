@@ -1,7 +1,9 @@
 {
+    "name": "mnapoli/fluent-symfony",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "PhpSymfonyConfig\\": "src/"
+            "Fluent\\": "src/"
         },
         "files": [
             "src/functions.php"

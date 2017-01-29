@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace PhpSymfonyConfig\Test;
+namespace Fluent\Test;
 
-use PhpSymfonyConfig\PhpConfigFileLoader;
+use Fluent\PhpConfigFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

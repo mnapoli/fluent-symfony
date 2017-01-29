@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace PhpSymfonyConfig;
+namespace Fluent;
 
-use PhpSymfonyConfig\DefinitionHelper\ParameterDefinitionHelper;
+use Fluent\DefinitionHelper\ParameterDefinitionHelper;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

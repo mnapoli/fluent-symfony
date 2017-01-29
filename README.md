@@ -95,7 +95,7 @@ Parameters and services can be mixed in the same array.
 Services can be declared simply using the `create()` function helper:
 
 ```php
-use function PhpSymfonyConfig\create;
+use function Fluent\create;
 
 return [
     'mailer' => create(Mailer::class),
@@ -221,7 +221,7 @@ services:
 Services can be created by [factories](https://symfony.com/doc/current/service_container/factories.html) using the `factory()` function helper:
 
 ```php
-use function PhpSymfonyConfig\factory;
+use function Fluent\factory;
 
 return [
     'newsletter_manager' => factory([NewsletterManager::class, 'create'])
@@ -245,8 +245,8 @@ services:
 Services can be aliased using the `alias()` function helper:
 
 ```php
-use function PhpSymfonyConfig\create;
-use function PhpSymfonyConfig\alias;
+use function Fluent\create;
+use function Fluent\alias;
 
 return [
     'app.phpmailer' => create(PhpMailer::class),
@@ -271,7 +271,7 @@ services:
 Other configuration files can be imported using the `import()` function helper:
 
 ```php
-use function PhpSymfonyConfig\import;
+use function Fluent\import;
 
 return [
     import('services/mailer.php'),

@@ -1,11 +1,11 @@
 <?php
 
-namespace PhpSymfonyConfig\Test;
+namespace Fluent\Test;
 
-use PhpSymfonyConfig\PhpConfigLoader;
+use Fluent\PhpConfigLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use function PhpSymfonyConfig\alias;
-use function PhpSymfonyConfig\create;
+use function Fluent\alias;
+use function Fluent\create;
 
 /**
  * Test alias() definitions.

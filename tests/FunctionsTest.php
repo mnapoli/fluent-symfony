@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpSymfonyConfig\Test;
+namespace Fluent\Test;
 
-use PhpSymfonyConfig\DefinitionHelper\CreateDefinitionHelper;
-use function PhpSymfonyConfig\create;
+use Fluent\DefinitionHelper\CreateDefinitionHelper;
+use function Fluent\create;
 
 /**
  * Tests the helper functions.

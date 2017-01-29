@@ -1,6 +1,6 @@
 <?php
 
-use function PhpSymfonyConfig\import;
+use function Fluent\import;
 
 return [
 
