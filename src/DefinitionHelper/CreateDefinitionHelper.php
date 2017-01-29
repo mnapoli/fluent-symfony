@@ -54,11 +54,11 @@ class CreateDefinitionHelper implements DefinitionHelper
      * Defines the arguments to use to call the constructor.
      *
      * This method takes a variable number of arguments, example:
-     *     ->constructor($param1, $param2, $param3)
+     *     ->arguments($param1, $param2, $param3)
      *
      * @param mixed ... Arguments to use for calling the constructor of the class.
      */
-    public function constructor(...$arguments) : self
+    public function arguments(...$arguments) : self
     {
         $this->definition->setArguments($arguments);
 

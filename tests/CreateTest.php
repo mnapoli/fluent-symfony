@@ -43,7 +43,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder;
         (new PhpConfigLoader($container))->load([
             'foo' => create($className)
-                ->constructor('abc', 'def'),
+                ->arguments('abc', 'def'),
         ]);
         self::assertEquals(['abc', 'def'], $container->get('foo')->arguments);
     }
@@ -119,7 +119,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder;
         (new PhpConfigLoader($container))->load([
             'foo' => create($className)
-                ->constructor(get('stdClass')),
+                ->arguments(get('stdClass')),
             'stdClass' => create(),
         ]);
         self::assertInstanceOf('stdClass', $container->get('foo')->argument);
@@ -141,7 +141,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder;
         (new PhpConfigLoader($container))->load([
             'foo' => create($className)
-                ->constructor('%abc%'),
+                ->arguments('%abc%'),
             'abc' => 'def',
         ]);
         self::assertEquals('def', $container->get('foo')->argument);
