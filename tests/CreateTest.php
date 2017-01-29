@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Test create() definitions.
  */
-class CreateDefinitionTest extends \PHPUnit_Framework_TestCase
+class CreateTest extends \PHPUnit_Framework_TestCase
 {
     public function test_create_with_class_name_provided()
     {
