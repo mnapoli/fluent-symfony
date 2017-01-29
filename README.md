@@ -1,4 +1,4 @@
-# Natural PHP configuration for Symfony
+# Fluent configuration for Symfony
 
 This package offers a better configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
 
@@ -16,10 +16,6 @@ Currently, in Symfony, you can configure the container using:
         mailer:
             class:     Mailer
             arguments: ['%mailer.transport%']
-        newsletter_manager:
-            class:     NewsletterManager
-            calls:
-                - [setMailer, ['@mailer']]
     ```
 
 - XML
@@ -38,12 +34,6 @@ Currently, in Symfony, you can configure the container using:
             <service id="mailer" class="Mailer">
                 <argument>%mailer.transport%</argument>
             </service>
-    
-            <service id="newsletter_manager" class="NewsletterManager">
-                <call method="setMailer">
-                    <argument type="service" id="mailer" />
-                </call>
-            </service>
         </services>
     </container>
     ```
@@ -55,10 +45,6 @@ Currently, in Symfony, you can configure the container using:
     $container
         ->register('mailer', 'Mailer')
         ->addArgument('%mailer.transport%');
-    
-    $container
-        ->register('newsletter_manager', 'NewsletterManager')
-        ->addMethodCall('setMailer', [new Reference('mailer')]);
     ```
 
 With this package, you can now use a 4th alternative:
@@ -69,9 +55,6 @@ return [
 
     'mailer' => create(Mailer::class)
         ->arguments('%mailer.transport%'),
-
-    'newsletter_manager' => create(NewsletterManager::class)
-        ->method('setMailer', get('mailer')),
 ];
 ```
 
