@@ -58,7 +58,7 @@ return [
 ];
 ```
 
-## Configuration reference
+## Syntax
 
 A configuration file must `return` a PHP array. In that array, parameters, services and imports are defined altogether:
 
@@ -71,7 +71,7 @@ return [
 ];
 ```
 
-### Parameters
+## Parameters
 
 Parameters are declared as simple values:
 
@@ -90,7 +90,7 @@ parameters:
 
 Parameters and services can be mixed in the same array.
 
-### Services
+## Services
 
 Services can be declared simply using the `create()` function helper:
 
@@ -112,7 +112,7 @@ services:
         class: Mailer
 ```
 
-### Using the class name as the entry ID
+#### Using the class name as the entry ID
 
 If the container entry ID is a class name, you can skip it when calling `create()`.
 
@@ -122,7 +122,7 @@ return [
 ];
 ```
 
-### Constructor arguments
+#### Constructor arguments
 
 ```php
 return [
@@ -178,7 +178,7 @@ services:
         arguments: ['@mailer']
 ```
 
-### Setter injection
+#### Setter injection
 
 ```php
 return [
@@ -197,7 +197,7 @@ services:
             - [setHostAndPort, ['smtp.google.com', 2525]]
 ```
 
-### Property injection
+#### Property injection
 
 ```php
 return [
@@ -216,7 +216,7 @@ services:
             host: smtp.google.com
 ```
 
-### Factories
+## Factories
 
 Services can be created by [factories](https://symfony.com/doc/current/service_container/factories.html) using the `factory()` function helper:
 
@@ -240,7 +240,7 @@ services:
         arguments: ['foo', 'bar']
 ```
 
-### Aliases
+## Aliases
 
 Services can be aliased using the `alias()` function helper:
 
@@ -266,7 +266,7 @@ services:
         alias: app.phpmailer
 ```
 
-### Imports
+## Imports
 
 Other configuration files can be imported using the `import()` function helper:
 
