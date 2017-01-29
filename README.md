@@ -4,6 +4,26 @@
 
 This package offers a better configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
 
+## Why?
+
+TODO
+
+- auto-completion on classes or constants:
+
+    ![](https://i.imgur.com/t65dZ9l.png)
+
+- auto-completion when writing configuration:
+
+    ![](http://i.imgur.com/0w0or7S.gif)
+
+- real time validation in IDEs:
+
+    ![](http://i.imgur.com/28wO3Oa.png)
+    
+- constant support:
+
+    ![](https://i.imgur.com/LsRXbJx.png)
+
 ## Comparison with existing formats
 
 Currently, in Symfony, you can configure the container using:
