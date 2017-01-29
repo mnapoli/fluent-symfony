@@ -3,6 +3,7 @@
 namespace PhpSymfonyConfig\Test;
 
 use function PhpSymfonyConfig\create;
+use function PhpSymfonyConfig\get;
 use PhpSymfonyConfig\PhpConfigLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -100,5 +101,24 @@ class CreateDefinitionTest extends \PHPUnit_Framework_TestCase
 
         $class = $container->get($className);
         $this->assertEquals(2, $class->count);
+    }
+
+    public function test_inject_service()
+    {
+        $fixture = new class(null) {
+            public function __construct($argument)
+            {
+                $this->argument = $argument;
+            }
+        };
+        $className = get_class($fixture);
+
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'foo' => create($className)
+                ->constructor(get('stdClass')),
+            'stdClass' => create(),
+        ]);
+        self::assertInstanceOf('stdClass', $container->get('foo')->argument);
     }
 }

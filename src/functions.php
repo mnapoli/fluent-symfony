@@ -5,6 +5,7 @@ namespace PhpSymfonyConfig;
 
 use PhpSymfonyConfig\DefinitionHelper\AliasDefinitionHelper;
 use PhpSymfonyConfig\DefinitionHelper\CreateDefinitionHelper;
+use Symfony\Component\DependencyInjection\Reference;
 
 if (!function_exists('PhpSymfonyConfig\create')) {
     /**
@@ -26,5 +27,15 @@ if (!function_exists('PhpSymfonyConfig\alias')) {
     function alias(string $targetEntryId) : AliasDefinitionHelper
     {
         return new AliasDefinitionHelper($targetEntryId);
+    }
+}
+
+if (!function_exists('PhpSymfonyConfig\get')) {
+    /**
+     * Reference to another service.
+     */
+    function get(string $entryId) : Reference
+    {
+        return new Reference($entryId);
     }
 }
