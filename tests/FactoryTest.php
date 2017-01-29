@@ -53,6 +53,20 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf('stdClass', $container->get('foo')->arg1);
     }
 
+    /**
+     * @test
+     */
+    public function parameters_can_be_injected_in_arguments()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'foo' => factory([self::class, 'bar'])
+                ->arguments('%abc%', ''),
+            'abc' => 'def',
+        ]);
+        self::assertEquals('def', $container->get('foo')->arg1);
+    }
+
     public static function foo()
     {
         return new \stdClass();

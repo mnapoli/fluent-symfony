@@ -103,7 +103,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $class->count);
     }
 
-    public function test_inject_service()
+    /**
+     * @test
+     */
+    public function services_can_be_injected()
     {
         $fixture = new class(null) {
             public function __construct($argument)
@@ -120,5 +123,27 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             'stdClass' => create(),
         ]);
         self::assertInstanceOf('stdClass', $container->get('foo')->argument);
+    }
+
+    /**
+     * @test
+     */
+    public function parameters_can_be_injected()
+    {
+        $fixture = new class(null) {
+            public function __construct($argument)
+            {
+                $this->argument = $argument;
+            }
+        };
+        $className = get_class($fixture);
+
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'foo' => create($className)
+                ->constructor('%abc%'),
+            'abc' => 'def',
+        ]);
+        self::assertEquals('def', $container->get('foo')->argument);
     }
 }
