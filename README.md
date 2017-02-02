@@ -8,6 +8,8 @@ This package offers an alternative configuration syntax for Symfony's container,
 
 TODO
 
+The main goal is to benefit from stricter analysis from the PHP engine and IDEs. If you are interested, I've also detailed [why YAML was replaced by a similar syntax in PHP-DI 5](http://php-di.org/news/06-php-di-4-0-new-definitions.html).
+
 - auto-completion on classes or constants:
 
     ![](https://i.imgur.com/t65dZ9l.png)
