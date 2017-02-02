@@ -26,6 +26,8 @@ The main goal is to benefit from stricter analysis from the PHP engine and IDEs.
 
     ![](https://i.imgur.com/LsRXbJx.png)
 
+- better refactoring support
+
 ## Comparison with existing formats
 
 Currently, in Symfony, you can configure the container using:
