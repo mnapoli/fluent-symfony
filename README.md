@@ -2,7 +2,7 @@
 
 **Work in progress: this package is mostly an experiment for now, I'm trying to see if there's any interest in that**
 
-This package offers a better configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
+This package offers an alternative configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
 
 ## Why?
 
