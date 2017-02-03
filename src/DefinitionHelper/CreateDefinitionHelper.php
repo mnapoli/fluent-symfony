@@ -23,10 +23,14 @@ class CreateDefinitionHelper implements DefinitionHelper
      *
      * @param string|null $className Class name of the object.
      *                               If null, the name of the entry (in the container) will be used as class name.
+     * @param bool        $autowire  Whether the class should be autowired.
      */
-    public function __construct(string $className = null)
+    public function __construct(string $className = null, $autowire = false)
     {
         $this->definition = new Definition($className);
+        if ($autowire) {
+            $this->definition->setAutowired(true);
+        }
     }
 
     public function register(string $entryId, ContainerBuilder $container)

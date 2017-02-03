@@ -5,6 +5,7 @@ namespace Fluent\Test;
 use function Fluent\create;
 use function Fluent\get;
 use Fluent\PhpConfigLoader;
+use stdClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
