@@ -151,11 +151,12 @@ class CreateTest extends TestCase
     /**
      * @test
      */
-    public function adds_simple_tag()
+    public function services_can_be_tagged()
     {
         $container = new ContainerBuilder;
         (new PhpConfigLoader($container))->load([
-            'bar' => create('stdClass')->tag('foo'),
+            'bar' => create('stdClass')
+                ->tag('foo'),
         ]);
         self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
         self::assertArrayHasKey('bar', $container->findTaggedServiceIds('foo'));
@@ -164,11 +165,12 @@ class CreateTest extends TestCase
     /**
      * @test
      */
-    public function add_tag_with_attribute()
+    public function services_can_be_tagged_with_attributes()
     {
         $container = new ContainerBuilder;
         (new PhpConfigLoader($container))->load([
-            'bar' => create('stdClass')->tag('foo', ['alias' => 'baz']),
+            'bar' => create('stdClass')
+                ->tag('foo', ['alias' => 'baz']),
         ]);
         $tagged = $container->findTaggedServiceIds('foo');
         self::assertArrayHasKey('alias', $tagged['bar'][0]);
@@ -178,11 +180,13 @@ class CreateTest extends TestCase
     /**
      * @test
      */
-    public function adds_multiple_tags()
+    public function services_can_be_tagged_multiple_times()
     {
         $container = new ContainerBuilder;
         (new PhpConfigLoader($container))->load([
-            'bar' => create('stdClass')->tag('foo')->tag('baz'),
+            'bar' => create('stdClass')
+                ->tag('foo')
+                ->tag('baz'),
         ]);
         self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
         self::assertTrue($container->findDefinition('bar')->hasTag('baz'));

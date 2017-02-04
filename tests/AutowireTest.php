@@ -61,4 +61,48 @@ class AutowireTest extends TestCase
 
         self::assertInstanceOf(stdClass::class, $container->get($autowiredClassName)->argument);
     }
+
+    /**
+     * @test
+     */
+    public function autowired_services_can_be_tagged()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => autowire('stdClass')
+                ->tag('foo'),
+        ]);
+        self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
+        self::assertArrayHasKey('bar', $container->findTaggedServiceIds('foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function autowired_services_can_be_tagged_with_attributes()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => autowire('stdClass')
+                ->tag('foo', ['alias' => 'baz']),
+        ]);
+        $tagged = $container->findTaggedServiceIds('foo');
+        self::assertArrayHasKey('alias', $tagged['bar'][0]);
+        self::assertEquals('baz', $tagged['bar'][0]['alias']);
+    }
+
+    /**
+     * @test
+     */
+    public function autowired_services_can_be_tagged_multiple_times()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => autowire('stdClass')
+                ->tag('foo')
+                ->tag('baz'),
+        ]);
+        self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
+        self::assertTrue($container->findDefinition('bar')->hasTag('baz'));
+    }
 }
