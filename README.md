@@ -315,6 +315,29 @@ services:
         alias: app.phpmailer
 ```
 
+## Tags
+
+Services can be tagged :
+
+```php
+return [
+    'mailer' => create(Mailer::class)
+        ->tag('foo', ['fizz' => 'buzz', 'bar' => 'baz'])
+        ->tag('bar'),
+];
+```
+
+This is the same as:
+
+```yaml
+services:
+    mailer:
+        class: Mailer
+        tags:
+            - {name: foo, fizz: buzz, bar: baz}
+            - {name: bar}
+```
+
 ## Imports
 
 Other configuration files can be imported using the `import()` function helper:
