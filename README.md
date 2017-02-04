@@ -150,6 +150,27 @@ return [
 ];
 ```
 
+#### Autowiring
+
+Services can also be [automatically wired](http://symfony.com/doc/current/components/dependency_injection/autowiring.html) using the `autowire()` function helper in place of `create()`:
+ 
+```php
+use function Fluent\autowire;
+ 
+return [
+    Mailer::class => autowire(),
+];
+```
+ 
+This is the same as:
+
+```yaml
+services:
+    Mailer:
+        class: Mailer
+        autowire: true
+```
+
 #### Constructor arguments
 
 ```php
@@ -166,30 +187,6 @@ services:
     mailer:
         class: Mailer
         arguments: ['smtp.google.com', 2525]
-```
-
-## Autowiring
-
-Services can also be automatically wired using the `autowire()` function helper:
- 
-```php
-use function Fluent\autowire;
- 
-return [
-    MailerTransport::class => create(),
-    Mailer::class          => autowire(),
-];
-```
- 
-This is the same as:
-
-```yaml
-services:
-    MailerTransport:
-        class: MailerTransport
-    Mailer:
-        class: Mailer
-        autowire: true
 ```
 
 #### Dependencies
