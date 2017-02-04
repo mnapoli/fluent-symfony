@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/mnapoli/fluent-symfony/master.svg?style=flat-square)](https://travis-ci.org/mnapoli/fluent-symfony)
 
-**Work in progress: this package is an experiment for now, feedback and ideas are welcome**
+**Work in progress**
 
 This package offers an alternative configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
 
