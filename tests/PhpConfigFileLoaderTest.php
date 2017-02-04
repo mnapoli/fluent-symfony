@@ -4,10 +4,11 @@ declare(strict_types = 1);
 namespace Fluent\Test;
 
 use Fluent\PhpConfigFileLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class PhpConfigFileLoaderTest extends \PHPUnit_Framework_TestCase
+class PhpConfigFileLoaderTest extends TestCase
 {
     /**
      * @test

@@ -4,9 +4,10 @@ declare(strict_types = 1);
 namespace Fluent\Test;
 
 use Fluent\PhpConfigLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class PhpConfigLoaderTest extends \PHPUnit_Framework_TestCase
+class PhpConfigLoaderTest extends TestCase
 {
     /**
      * @test

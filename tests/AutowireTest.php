@@ -5,13 +5,14 @@ namespace Fluent\Test;
 use function Fluent\autowire;
 use function Fluent\create;
 use Fluent\PhpConfigLoader;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Test autowire() definitions.
  */
-class AutowireTest extends \PHPUnit_Framework_TestCase
+class AutowireTest extends TestCase
 {
     /**
      * @test

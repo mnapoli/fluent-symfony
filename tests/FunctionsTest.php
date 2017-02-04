@@ -4,11 +4,12 @@ namespace Fluent\Test;
 
 use Fluent\DefinitionHelper\CreateDefinitionHelper;
 use function Fluent\create;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the helper functions.
  */
-class FunctionsTest extends \PHPUnit_Framework_TestCase
+class FunctionsTest extends TestCase
 {
     /**
      * @test
@@ -17,6 +18,8 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         include __DIR__ . '/../src/functions.php';
         include __DIR__ . '/../src/functions.php';
+
+        self::assertInstanceOf(CreateDefinitionHelper::class, create());
     }
 
     /**
@@ -26,6 +29,6 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $helper = create();
 
-        $this->assertTrue($helper instanceof CreateDefinitionHelper);
+        self::assertInstanceOf(CreateDefinitionHelper::class, $helper);
     }
 }

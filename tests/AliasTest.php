@@ -3,6 +3,7 @@
 namespace Fluent\Test;
 
 use Fluent\PhpConfigLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use function Fluent\alias;
 use function Fluent\create;
@@ -10,7 +11,7 @@ use function Fluent\create;
 /**
  * Test alias() definitions.
  */
-class AliasTest extends \PHPUnit_Framework_TestCase
+class AliasTest extends TestCase
 {
     public function test_alias_service()
     {
