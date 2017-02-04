@@ -6,12 +6,13 @@ use function Fluent\create;
 use function Fluent\factory;
 use function Fluent\get;
 use Fluent\PhpConfigLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Test factory() definitions.
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends TestCase
 {
     /**
      * @test

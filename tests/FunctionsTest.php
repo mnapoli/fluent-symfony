@@ -4,11 +4,12 @@ namespace Fluent\Test;
 
 use Fluent\DefinitionHelper\CreateDefinitionHelper;
 use function Fluent\create;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the helper functions.
  */
-class FunctionsTest extends \PHPUnit_Framework_TestCase
+class FunctionsTest extends TestCase
 {
     /**
      * @test

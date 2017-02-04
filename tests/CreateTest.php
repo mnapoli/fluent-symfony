@@ -5,13 +5,13 @@ namespace Fluent\Test;
 use function Fluent\create;
 use function Fluent\get;
 use Fluent\PhpConfigLoader;
-use stdClass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Test create() definitions.
  */
-class CreateTest extends \PHPUnit_Framework_TestCase
+class CreateTest extends TestCase
 {
     public function test_create_with_class_name_provided()
     {
