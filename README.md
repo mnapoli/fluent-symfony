@@ -320,13 +320,10 @@ services:
 Services can be tagged :
 
 ```php
-use function Fluent\create;
-
 return [
-    'app.phpmailer' => create(PhpMailer::class)
+    'mailer' => create(Mailer::class)
         ->tag('foo', ['fizz' => 'buzz', 'bar' => 'baz'])
-        ->tag('bar')
-    ,
+        ->tag('bar'),
 ];
 ```
 
@@ -334,8 +331,8 @@ This is the same as:
 
 ```yaml
 services:
-    app.phpmailer:
-        class: AppBundle\Mail\PhpMailer
+    mailer:
+        class: Mailer
         tags:
             - {name: foo, fizz: buzz, bar: baz}
             - {name: bar}
