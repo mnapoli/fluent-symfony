@@ -56,4 +56,14 @@ if (!function_exists('Fluent\create')) {
         return new Import($resource);
     }
 
+    /**
+     * Helper for defining a service created by instantiating a class and autowire it.
+     *
+     * @param string|null $className Class name of the object.
+     */
+    function autowire(string $className = null) : CreateDefinitionHelper
+    {
+        return new CreateDefinitionHelper($className, true);
+    }
+
 }
