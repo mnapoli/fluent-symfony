@@ -18,6 +18,8 @@ class FunctionsTest extends TestCase
     {
         include __DIR__ . '/../src/functions.php';
         include __DIR__ . '/../src/functions.php';
+
+        self::assertInstanceOf(CreateDefinitionHelper::class, create());
     }
 
     /**
