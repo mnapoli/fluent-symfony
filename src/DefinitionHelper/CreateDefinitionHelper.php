@@ -100,4 +100,19 @@ class CreateDefinitionHelper implements DefinitionHelper
 
         return $this;
     }
+
+    /**
+     * Adds a tag to the current definition
+     *
+     * Can be used multiple times to declare multiple calls.
+     *
+     * @param string $name       The tag name
+     * @param array  $attributes An array of attributes
+     */
+    public function tag(string $name, array $attributes = []) : self
+    {
+        $this->definition->addTag($name, $attributes);
+
+        return $this;
+    }
 }
