@@ -168,6 +168,30 @@ services:
         arguments: ['smtp.google.com', 2525]
 ```
 
+## Autowiring
+
+Services can also be automatically wired using the `autowire()` function helper:
+ 
+```php
+use function Fluent\autowire;
+ 
+return [
+    MailerTransport::class => create(),
+    Mailer::class          => autowire(),
+];
+```
+ 
+This is the same as:
+
+```yaml
+services:
+    MailerTransport:
+        class: MailerTransport
+    Mailer:
+        class: Mailer
+        autowire: true
+```
+
 #### Dependencies
 
 Parameters can be injected using the `'%foo%'` syntax:
