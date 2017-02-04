@@ -315,6 +315,32 @@ services:
         alias: app.phpmailer
 ```
 
+## Tags
+
+Services can be tagged :
+
+```php
+use function Fluent\create;
+
+return [
+    'app.phpmailer' => create(PhpMailer::class)
+        ->tag('foo', ['fizz' => 'buzz', 'bar' => 'baz'])
+        ->tag('bar')
+    ,
+];
+```
+
+This is the same as:
+
+```yaml
+services:
+    app.phpmailer:
+        class: AppBundle\Mail\PhpMailer
+        tags:
+            - {name: foo, fizz: buzz, bar: baz}
+            - {name: bar}
+```
+
 ## Imports
 
 Other configuration files can be imported using the `import()` function helper:
