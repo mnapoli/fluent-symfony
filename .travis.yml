@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+
+matrix:
+  include:
+    - php: 7.0
+      env: dependencies=lowest
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - if [[ "$dependencies" != "lowest" ]]; then composer install -n ; fi
+  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest --prefer-stable -n; fi;
+
+script:
+  - vendor/bin/phpunit
