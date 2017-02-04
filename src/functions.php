@@ -59,6 +59,8 @@ if (!function_exists('Fluent\create')) {
     /**
      * Helper for defining a service created by instantiating a class and autowire it.
      *
+     * @see http://symfony.com/doc/current/components/dependency_injection/autowiring.html
+     *
      * @param string|null $className Class name of the object.
      */
     function autowire(string $className = null) : CreateDefinitionHelper
