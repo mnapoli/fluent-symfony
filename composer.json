@@ -11,7 +11,8 @@
     },
     "require": {
         "php": ">=7.0",
-        "symfony/symfony": "^3.2"
+        "symfony/dependency-injection": "^3.2",
+        "symfony/config": "^3.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7"
