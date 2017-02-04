@@ -147,4 +147,44 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         ]);
         self::assertEquals('def', $container->get('foo')->argument);
     }
+
+    /**
+     * @test
+     */
+    public function adds_simple_tag()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => create('stdClass')->tag('foo'),
+        ]);
+        self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
+        self::assertArrayHasKey('bar', $container->findTaggedServiceIds('foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function add_tag_with_attribute()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => create('stdClass')->tag('foo', ['alias' => 'baz']),
+        ]);
+        $tagged = $container->findTaggedServiceIds('foo');
+        self::assertArrayHasKey('alias', $tagged['bar'][0]);
+        self::assertEquals('baz', $tagged['bar'][0]['alias']);
+    }
+
+    /**
+     * @test
+     */
+    public function adds_multiple_tags()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => create('stdClass')->tag('foo')->tag('baz'),
+        ]);
+        self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
+        self::assertTrue($container->findDefinition('bar')->hasTag('baz'));
+    }
 }
