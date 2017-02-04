@@ -101,7 +101,7 @@ class CreateTest extends TestCase
         ]);
 
         $class = $container->get($className);
-        $this->assertEquals(2, $class->count);
+        self::assertEquals(2, $class->count);
     }
 
     /**

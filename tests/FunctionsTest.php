@@ -29,6 +29,6 @@ class FunctionsTest extends TestCase
     {
         $helper = create();
 
-        $this->assertTrue($helper instanceof CreateDefinitionHelper);
+        self::assertInstanceOf(CreateDefinitionHelper::class, $helper);
     }
 }
