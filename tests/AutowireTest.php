@@ -19,8 +19,7 @@ class AutowireTest extends TestCase
      */
     public function service_can_be_created_as_autowired()
     {
-        $classToBeInjected   = new stdClass;
-        $autowiredClass      = new class($classToBeInjected) {
+        $autowiredClass = new class(new stdClass) {
             public function __construct(stdClass $argument)
             {
                 $this->argument = $argument;
@@ -43,9 +42,8 @@ class AutowireTest extends TestCase
      */
     public function service_can_be_created_as_autowired_without_class_name()
     {
-        $classToBeInjected   = new stdClass;
-        $autowiredClass      = new class($classToBeInjected) {
-            public function __construct(stdClass $argument)
+        $autowiredClass = new class(new stdClass) {
+            public function __construct(stdClass $argument = null)
             {
                 $this->argument = $argument;
             }
