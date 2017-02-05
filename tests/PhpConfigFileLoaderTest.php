@@ -53,6 +53,8 @@ class PhpConfigFileLoaderTest extends TestCase
      *
      * @see \Symfony\Component\DependencyInjection\Loader\PhpFileLoader
      *
+     * @runInSeparateProcess Because we require the AppKernel file
+     *
      * @test
      */
     public function supports_traditional_php_config_files()
