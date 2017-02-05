@@ -118,6 +118,17 @@ class CreateDefinitionHelper implements DefinitionHelper
     }
 
     /**
+     * Marks the definition as private
+     */
+    public function private() : self
+    {
+        $this->definition->setPublic(false);
+
+        return $this;
+    }
+
+    /**
+
      * Mark the service as deprecated
      *
      * @param  string|null  $template Template message to use if the definition is deprecated
