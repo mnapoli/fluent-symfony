@@ -86,6 +86,58 @@ return [
 ];
 ```
 
+## Installation
+
+```
+composer require mnapoli/fluent-symfony
+```
+
+To enable the new format in a Symfony fullstack application, simply import the `EnableFluentConfig` trait in `app/AppKernel.php`, for example:
+
+```php
+<?php
+
+use Fluent\EnableFluentConfig;
+use Symfony\Component\HttpKernel\Kernel;
+// ...
+
+class AppKernel extends Kernel
+{
+    use EnableFluentConfig;
+
+    // ...
+}
+```
+
+You can now either:
+
+- write all your config in "fluent" syntax, to do that change your `AppKernel` to load `.php` files instead of `.yml`:
+
+    ```php
+    class AppKernel extends Kernel
+    {
+        use EnableFluentConfig;
+    
+        // ...
+    
+        public function registerContainerConfiguration(LoaderInterface $loader)
+        {
+            $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.php');
+        }
+    }
+    ```
+
+- or import PHP config files from YAML config files:
+
+    ```yaml
+    imports:
+        - services.php
+        
+    # ...
+    ```
+
+Be advised that PHP config files in the "traditional" form ([see the documentation](http://symfony.com/doc/current/components/dependency_injection.html#setting-up-the-container-with-configuration-files)) *are still supported* and will continue to work.
+
 ## Syntax
 
 A configuration file must `return` a PHP array. In that array, parameters, services and imports are defined altogether:
