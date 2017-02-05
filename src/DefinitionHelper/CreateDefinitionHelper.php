@@ -5,6 +5,7 @@ namespace Fluent\DefinitionHelper;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 /**
  * Helps defining how to create an instance of a class.
@@ -112,6 +113,20 @@ class CreateDefinitionHelper implements DefinitionHelper
     public function tag(string $name, array $attributes = []) : self
     {
         $this->definition->addTag($name, $attributes);
+
+        return $this;
+    }
+
+    /**
+     * Mark the service as deprecated
+     *
+     * @param  string|null  $template Template message to use if the definition is deprecated
+     *
+     * @throws InvalidArgumentException
+     */
+    public function deprecate(string $template = null) : self
+    {
+        $this->definition->setDeprecated(true, $template);
 
         return $this;
     }
