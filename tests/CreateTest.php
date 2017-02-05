@@ -195,6 +195,19 @@ class CreateTest extends TestCase
     /**
      * @test
      */
+    public function services_can_be_marked_as_private()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => create('stdClass')
+                ->private()
+        ]);
+        self::assertFalse($container->findDefinition('bar')->isPublic());
+    }
+
+    /**
+     * @test
+     */
     public function services_can_be_deprecated()
     {
         $container = new ContainerBuilder;
