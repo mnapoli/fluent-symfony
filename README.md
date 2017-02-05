@@ -2,15 +2,11 @@
 
 [![Build Status](https://img.shields.io/travis/mnapoli/fluent-symfony/master.svg?style=flat-square)](https://travis-ci.org/mnapoli/fluent-symfony)
 
-**Work in progress**
-
 This package offers an alternative configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
 
 ## Why?
 
-TODO
-
-The main goal is to benefit from stricter analysis from the PHP engine and IDEs. If you are interested, I've also detailed [why YAML was replaced by a similar syntax in PHP-DI 5](http://php-di.org/news/06-php-di-4-0-new-definitions.html).
+The main goal is to benefit from stricter analysis from the PHP engine and IDEs. If you are interested you can also read [why YAML was replaced by a similar syntax in PHP-DI 5](http://php-di.org/news/06-php-di-4-0-new-definitions.html).
 
 - auto-completion on classes or constants:
 
