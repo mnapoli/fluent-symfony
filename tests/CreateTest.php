@@ -191,4 +191,31 @@ class CreateTest extends TestCase
         self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
         self::assertTrue($container->findDefinition('bar')->hasTag('baz'));
     }
+
+    /**
+     * @test
+     */
+    public function services_can_be_deprecated()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => create('stdClass')
+                ->deprecate()
+        ]);
+        self::assertTrue($container->findDefinition('bar')->isDeprecated());
+    }
+
+    /**
+     * @test
+     */
+    public function services_can_be_deprecated_providing_a_template_message()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => create('stdClass')
+                ->deprecate('The "%service_id%" service is deprecated.')
+        ]);
+        self::assertTrue($container->findDefinition('bar')->isDeprecated());
+        self::assertEquals('The "bar" service is deprecated.', $container->findDefinition('bar')->getDeprecationMessage('bar'));
+    }
 }
