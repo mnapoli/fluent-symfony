@@ -5,6 +5,7 @@ namespace Fluent;
 
 use Fluent\DefinitionHelper\AliasDefinitionHelper;
 use Fluent\DefinitionHelper\CreateDefinitionHelper;
+use Fluent\DefinitionHelper\ExtensionConfiguration;
 use Fluent\DefinitionHelper\FactoryDefinitionHelper;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -66,6 +67,22 @@ if (!function_exists('Fluent\create')) {
     function autowire(string $className = null) : CreateDefinitionHelper
     {
         return new CreateDefinitionHelper($className, true);
+    }
+
+    /**
+     * Helps configuring an extension.
+     *
+     * Example:
+     *
+     *     return [
+     *         extension('framework', [
+     *             'trusted_proxies' => ['192.0.0.1', '10.0.0.0/8'],
+     *         ]),
+     *     ];
+     */
+    function extension(string $extensionName, array $config) : ExtensionConfiguration
+    {
+        return new ExtensionConfiguration($extensionName, $config);
     }
 
 }

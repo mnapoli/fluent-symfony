@@ -40,7 +40,7 @@ class PhpConfigLoader extends Loader
             }
 
             // Register the definition in the container
-            $definitionHelper->register($entryId, $this->container);
+            $definitionHelper->register((string) $entryId, $this->container);
         }
     }
 
