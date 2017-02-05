@@ -44,15 +44,24 @@ class PhpConfigFileLoaderTest extends TestCase
     }
 
     /**
+     * Tests that "traditional" PHP config files for Symfony are supported.
+     *
+     * Since the loader loads all `.php` files, it will replace and override completely
+     * the Symfony\Component\DependencyInjection\Loader\PhpFileLoader loader.
+     *
+     * As such, it must support files loaded by Symfony\Component\DependencyInjection\Loader\PhpFileLoader.
+     *
+     * @see \Symfony\Component\DependencyInjection\Loader\PhpFileLoader
+     *
      * @test
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp #The configuration file .+/tests/Fixtures/empty-file.php must return an array#
      */
-    public function verifies_that_config_files_return_an_array()
+    public function supports_traditional_php_config_files()
     {
         $container = new ContainerBuilder;
         $loader = new PhpConfigFileLoader($container, new FileLocator);
 
-        $loader->load(__DIR__ . '/Fixtures/empty-file.php');
+        $loader->load(__DIR__ . '/Fixtures/traditional-php-config.php');
+
+        self::assertEquals('bar', $container->getParameter('foo'));
     }
 }

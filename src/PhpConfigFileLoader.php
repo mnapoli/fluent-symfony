@@ -30,6 +30,12 @@ class PhpConfigFileLoader extends FileLoader
 
     public function load($resource, $type = null)
     {
+        // The container and loader variables are exposed to the included file below
+        // This is done to support "traditional" PHP config files
+        // @see \Symfony\Component\DependencyInjection\Loader\PhpFileLoader
+        $container = $this->container;
+        $loader = $this;
+
         $path = $this->locator->locate($resource);
         $this->setCurrentDir(dirname($path));
         $this->container->addResource(new FileResource($path));
@@ -37,7 +43,8 @@ class PhpConfigFileLoader extends FileLoader
         $definitions = require $path;
 
         if (!is_array($definitions)) {
-            throw new \Exception(sprintf('The configuration file %s must return an array', $path));
+            // Support for traditional PHP config files
+            return;
         }
 
         // Process imports
