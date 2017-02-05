@@ -2,12 +2,10 @@
 
 namespace Fluent\Test;
 
-use function Fluent\create;
-use function Fluent\factory;
-use function Fluent\get;
-use Fluent\PhpConfigLoader;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * Test that it all works with the Symfony fullstack.
@@ -16,11 +14,18 @@ class SymfonyFullstackTest extends TestCase
 {
     /**
      * @test
+     * @runInSeparateProcess Because we require the AppKernel file
      */
     public function php_config_works_in_symfony_fullstack()
     {
-        $output = shell_exec(__DIR__ . '/Fullstack/bin/console test 2>&1');
+        require __DIR__.'/Fullstack/app/AppKernel.php';
+        require __DIR__ . '/Fullstack/src/AppBundle/AppBundle.php';
+        require __DIR__ . '/Fullstack/src/AppBundle/Command/TestCommand.php';
 
-        self::assertEquals("Hello\n", $output);
+        $application = new Application(new \AppKernel('dev', true));
+        $output = new BufferedOutput;
+        $application->run(new ArrayInput(['test']), $output);
+
+        self::assertEquals("Hello\n", $output->fetch());
     }
 }
