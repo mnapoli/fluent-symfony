@@ -358,3 +358,26 @@ This is the same as:
 imports:
     - { resource: services/mailer.yml }
 ```
+
+## Extensions
+
+Extensions (like the framework configuration for example) can be configured using the `extension()` function helper:
+
+```php
+use function Fluent\extension;
+
+return [
+    extension('framework', [
+        'http_method_override' => true,
+        'trusted_proxies' => ['192.0.0.1', '10.0.0.0/8'],
+    ]),
+];
+```
+
+This is the same as:
+
+```yaml
+framework:
+    http_method_override: true
+    trusted_proxies: [192.0.0.1, 10.0.0.0/8]
+```
