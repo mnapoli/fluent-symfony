@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluent\DefinitionHelper;
 
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -13,17 +14,27 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class AliasDefinitionHelper implements DefinitionHelper
 {
     /**
-     * @var string
+     * @var Alias
      */
-    private $targetEntryId;
+    private $alias;
 
     public function __construct(string $targetEntry)
     {
-        $this->targetEntryId = $targetEntry;
+        $this->alias = new Alias($targetEntry);
+    }
+
+    /**
+     * Marks the alias as private
+     */
+    public function private() : self
+    {
+        $this->alias->setPublic(false);
+
+        return $this;
     }
 
     public function register(string $entryId, ContainerBuilder $container)
     {
-        $container->setAlias($entryId, $this->targetEntryId);
+        $container->setAlias($entryId, $this->alias);
     }
 }
