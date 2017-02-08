@@ -260,6 +260,8 @@ services:
 Services can be injected using the `get()` function helper:
 
 ```php
+use function Fluent\get;
+
 return [
     'newsletter_manager' => create(NewsletterManager::class)
         ->arguments(get('mailer')),
