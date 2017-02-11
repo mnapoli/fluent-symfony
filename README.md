@@ -315,6 +315,63 @@ services:
             host: smtp.google.com
 ```
 
+#### Optionnal service references
+
+Services can have [optional dependencies](https://symfony.com/doc/current/service_container/optional_dependencies.html), so that the dependency is not required for it to work.
+
+##### Setting missing dependencies to null
+
+```php
+use function Fluent\create;
+use function Fluent\get;
+
+return [
+    'newsletter_manager' => create(NewsletterManager::class)
+        ->arguments(get('mailer')->nullIfMissing()),
+];
+```
+
+This is the same as :
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="newsletter_manager" class="NewsletterManager">
+            <argument type="service" id="mailer" on-invalid="null" />
+        </service>
+    </services>
+</container>
+```
+
+##### Ignore missing dependencies
+
+When used with setter injection, it's possible to remove the method call using `ignoreIfMissing()` :
+
+```php
+use function Fluent\create;
+use function Fluent\get;
+
+return [
+    'newsletter_manager' => create(NewsletterManager::class)
+        ->method('setMailer', get('mailer')->ignoreIfMissing()),
+];
+```
+
+This is the same as :
+
+```yaml
+services:
+    app.newsletter_manager:
+        class:     AppBundle\Newsletter\NewsletterManager
+        calls:
+            - [setMailer, ['@?app.mailer']]
+```
+
 ## Factories
 
 Services can be created by [factories](https://symfony.com/doc/current/service_container/factories.html) using the `factory()` function helper:
