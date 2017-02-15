@@ -315,6 +315,24 @@ services:
             host: smtp.google.com
 ```
 
+#### Private Services
+
+```php
+return [
+    Mailer::class => create()
+        ->private(),
+];
+```
+
+This is the same as:
+
+```yaml
+services:
+    mailer:
+        class: Mailer
+        public: false
+```
+
 ## Factories
 
 Services can be created by [factories](https://symfony.com/doc/current/service_container/factories.html) using the `factory()` function helper:
@@ -363,6 +381,28 @@ services:
         class: AppBundle\Mail\PhpMailer
     app.mailer:
         alias: app.phpmailer
+```
+
+#### Private Aliases
+
+```php
+return [
+    'app.phpmailer' => create(PhpMailer::class),
+    'app.mailer' => alias('app.phpmailer')
+        ->private(),
+];
+```
+
+This is the same as:
+
+```yaml
+
+services:
+    app.phpmailer:
+        class: AppBundle\Mail\PhpMailer
+    app.mailer:
+        alias: app.phpmailer
+        public: false
 ```
 
 ## Tags
