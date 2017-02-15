@@ -370,6 +370,23 @@ services:
         class:     AppBundle\Newsletter\NewsletterManager
         calls:
             - [setMailer, ['@?app.mailer']]
+
+#### Private Services
+
+```php
+return [
+    Mailer::class => create()
+        ->private(),
+];
+```
+
+This is the same as:
+
+```yaml
+services:
+    mailer:
+        class: Mailer
+        public: false
 ```
 
 ## Factories
@@ -420,6 +437,28 @@ services:
         class: AppBundle\Mail\PhpMailer
     app.mailer:
         alias: app.phpmailer
+```
+
+#### Private Aliases
+
+```php
+return [
+    'app.phpmailer' => create(PhpMailer::class),
+    'app.mailer' => alias('app.phpmailer')
+        ->private(),
+];
+```
+
+This is the same as:
+
+```yaml
+
+services:
+    app.phpmailer:
+        class: AppBundle\Mail\PhpMailer
+    app.mailer:
+        alias: app.phpmailer
+        public: false
 ```
 
 ## Tags
