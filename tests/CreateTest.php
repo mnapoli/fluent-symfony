@@ -129,6 +129,47 @@ class CreateTest extends TestCase
     /**
      * @test
      */
+    public function missing_services_can_be_injected_with_null_value()
+    {
+        $fixture = new class(null) {
+            public function __construct($argument)
+            {
+                $this->argument = $argument;
+            }
+        };
+        $className = get_class($fixture);
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'foo' => create($className)
+                ->arguments(get('Bar')->nullIfMissing())
+        ]);
+        self::assertNull($container->get('foo')->argument);
+    }
+
+    /**
+     * @test
+     */
+    public function missing_services_can_be_injected_in_method_with_no_method_call()
+    {
+        $fixture = new class() {
+            public $argument = 3;
+            public function setArgument($argument)
+            {
+                $this->argument = $argument;
+            }
+        };
+        $className = get_class($fixture);
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'foo' => create($className)
+                ->method('setArgument', get('Bar')->ignoreIfMissing())
+        ]);
+        self::assertEquals(3, $container->get('foo')->argument);
+    }
+
+    /**
+     * @test
+     */
     public function parameters_can_be_injected()
     {
         $fixture = new class(null) {
