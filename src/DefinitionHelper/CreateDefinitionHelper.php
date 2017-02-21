@@ -118,6 +118,16 @@ class CreateDefinitionHelper implements DefinitionHelper
     }
 
     /**
+     * Marks the definition as unshared
+     */
+    public function unshared() : self
+    {
+        $this->definition->setShared(false);
+
+        return $this;
+    }
+
+    /**
      * Marks the definition as private
      */
     public function private() : self
