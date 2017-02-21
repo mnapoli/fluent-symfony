@@ -256,7 +256,6 @@ class CreateTest extends TestCase
             'bar' => create('stdClass')
                 ->unshared()
         ]);
-        self::assertFalse($container->findDefinition('bar')->isShared());
         self::assertFalse($container->get('bar') === $container->get('bar'));
     }
 
