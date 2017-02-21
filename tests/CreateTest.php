@@ -257,6 +257,7 @@ class CreateTest extends TestCase
                 ->unshared()
         ]);
         self::assertFalse($container->findDefinition('bar')->isShared());
+        self::assertFalse($container->get('bar') === $container->get('bar'));
     }
 
     /**
