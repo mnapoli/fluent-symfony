@@ -447,6 +447,27 @@ baz:
     arguments: ['@baz.inner']
 ```
 
+#### Non shared services
+
+All services [are shared by default](http://symfony.com/doc/current/service_container/shared.html). You can force the container to always create a new instance using the `unshared()` function helper:
+
+```php
+return [
+    'app.phpmailer' => create(PhpMailer::class)
+        ->unshared(),
+];
+```
+
+This is the same as:
+
+```yaml
+
+services:
+    app.phpmailer:
+        class: AppBundle\Mail\PhpMailer
+        shared: false
+```
+
 ## Factories
 
 Services can be created by [factories](https://symfony.com/doc/current/service_container/factories.html) using the `factory()` function helper:
@@ -517,27 +538,6 @@ services:
     app.mailer:
         alias: app.phpmailer
         public: false
-```
-
-## Non Shared Services
-
-In the service container, all services are shared by default. You can always get a new instance using the `unshared()` function helper
-
-```php
-return [
-    'app.phpmailer' => create(PhpMailer::class)
-        ->unshared(),
-];
-```
-
-This is the same as:
-
-```yaml
-
-services:
-    app.phpmailer:
-        class: AppBundle\Mail\PhpMailer
-        shared: false
 ```
 
 ## Tags
