@@ -389,6 +389,64 @@ services:
         public: false
 ```
 
+### Decorated services
+
+Services can be [decorated](https://symfony.com/doc/current/service_container/service_decoration.html) with the `decorate()` method
+
+```php
+return [
+    'decorating_mailer' => create(MailerDecorator::class)
+        ->decorate('mailer')
+        ->argument(get('decorating_mailer.inner')),
+];
+```
+
+This is the same as:
+
+```yaml
+services:
+    decorating_mailer:
+        class: 'MailerDecorator'
+        decorates: 'mailer'
+        arguments: ['@decorating_mailer.inner']
+```
+
+If you want to apply more than one decorator to a service, you can change the inner service name (IE the decorated service) and configure the priority of decoration :
+
+```php
+return [
+    'foo' => create(Foo::class),
+    'bar' => create(Bar::class)
+        ->decorate('foo', 'bar.foo', 5)
+        ->arguments(get('bar.foo'))
+    ,
+    'baz': create(Baz::class)
+        ->decorate('foo', 'baz.foo', 1),
+        ->arguments(get('baz.foo'))
+];
+```
+
+This is the same as:
+
+```yaml
+foo:
+    class: Foo
+
+bar:
+    class: Bar
+    decorates: foo
+    decoration_inner_name: 'bar.foo'
+    decoration_priority: 5
+    arguments: ['@bar.foo']
+
+baz:
+    class: Baz
+    decorates: foo
+    decoration_inner_name: 'baz.foo'
+    decoration_priority: 1
+    arguments: ['@baz.inner']
+```
+
 ## Factories
 
 Services can be created by [factories](https://symfony.com/doc/current/service_container/factories.html) using the `factory()` function helper:

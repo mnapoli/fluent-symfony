@@ -141,4 +141,18 @@ class CreateDefinitionHelper implements DefinitionHelper
 
         return $this;
     }
+
+    /**
+     * Override an existing definition, keeping acces to the old one
+     *
+     * @param string      $entryId   The decorated service id
+     * @param null|string $renamedId The new decorated service id
+     * @param int         $priority  The priority of decoration
+     */
+    public function decorate(string $entryId, string $renamedId = null, int $priority = 0) : self
+    {
+        $this->definition->setDecoratedService($entryId, $renamedId, $priority);
+
+        return $this;
+    }
 }
