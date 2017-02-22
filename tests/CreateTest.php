@@ -249,6 +249,19 @@ class CreateTest extends TestCase
     /**
      * @test
      */
+    public function services_can_be_marked_as_unshared()
+    {
+        $container = new ContainerBuilder;
+        (new PhpConfigLoader($container))->load([
+            'bar' => create('stdClass')
+                ->unshared()
+        ]);
+        self::assertFalse($container->get('bar') === $container->get('bar'));
+    }
+
+    /**
+     * @test
+     */
     public function services_can_be_deprecated()
     {
         $container = new ContainerBuilder;
