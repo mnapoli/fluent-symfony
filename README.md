@@ -461,6 +461,27 @@ services:
         public: false
 ```
 
+## Non Shared Services
+
+In the service container, all services are shared by default. You can always get a new instance using the `unshared()` function helper
+
+```php
+return [
+    'app.phpmailer' => create(PhpMailer::class)
+        ->unshared(),
+];
+```
+
+This is the same as:
+
+```yaml
+
+services:
+    app.phpmailer:
+        class: AppBundle\Mail\PhpMailer
+        shared: false
+```
+
 ## Tags
 
 Services can be tagged :
