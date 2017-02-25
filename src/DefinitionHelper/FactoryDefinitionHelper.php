@@ -20,15 +20,21 @@ class FactoryDefinitionHelper implements DefinitionHelper
 
     /**
      * @param string|array $factory A PHP function or an array containing a class/Reference and a method to call
+     * @param string|null $className Class name of the object.
+     *                               If null, the name of the entry (in the container) will be used as class name.
      */
-    public function __construct($factory)
+    public function __construct($factory, string $className = null)
     {
-        $this->definition = new Definition();
+        $this->definition = new Definition($className);
         $this->definition->setFactory($factory);
     }
 
     public function register(string $entryId, ContainerBuilder $container)
     {
+        if ($this->definition->getClass() === null) {
+            $this->definition->setClass($entryId);
+        }
+
         $container->setDefinition($entryId, $this->definition);
     }
 

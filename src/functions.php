@@ -42,10 +42,12 @@ if (!function_exists('Fluent\create')) {
      * Create a service using a factory
      *
      * @param string|array $factory A PHP function or an array containing a class/Reference and a method to call
+     * @param string|null $className Class name of the object.
+     *                               If null, the name of the entry (in the container) will be used as class name.
      */
-    function factory($factory) : FactoryDefinitionHelper
+    function factory($factory, string $className = null) : FactoryDefinitionHelper
     {
-        return new FactoryDefinitionHelper($factory);
+        return new FactoryDefinitionHelper($factory, $className);
     }
 
     /**
