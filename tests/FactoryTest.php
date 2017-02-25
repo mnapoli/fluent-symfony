@@ -12,12 +12,21 @@ use function Fluent\get;
 class FactoryTest extends BaseContainerTest
 {
     /** @test */
-    public function create_a_service_using_a_factory()
+    public function services_can_be_created_using_a_factory()
     {
         $container = $this->createContainerWithConfig([
-            'foo' => factory([self::class, 'foo']),
+            'foo' => factory([self::class, 'foo'], 'stdClass'),
         ]);
         self::assertInstanceOf('stdClass', $container->get('foo'));
+    }
+
+    /** @test */
+    public function the_class_name_can_be_guessed_from_the_service_id()
+    {
+        $container = $this->createContainerWithConfig([
+            'stdClass' => factory([self::class, 'foo']),
+        ]);
+        self::assertInstanceOf('stdClass', $container->get('stdClass'));
     }
 
     /** @test */

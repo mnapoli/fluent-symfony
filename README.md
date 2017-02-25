@@ -476,7 +476,7 @@ Services can be created by [factories](https://symfony.com/doc/current/service_c
 use function Fluent\factory;
 
 return [
-    'newsletter_manager' => factory([NewsletterManager::class, 'create'])
+    'newsletter_manager' => factory([NewsletterManager::class, 'create'], NewsletterManager::class)
         ->arguments('foo', 'bar'),
 ];
 ```
@@ -489,7 +489,19 @@ This is the same as:
 services:
     newsletter_manager:
         factory: ['AppBundle\Email\NewsletterManager', 'create']
+        class: 'AppBundle\Email\NewsletterManager'
         arguments: ['foo', 'bar']
+```
+
+When using the class name as service ID, you don't have to explicitly state the class name of the service:
+
+```php
+return [
+    // you can write:
+    NewsletterManager::class => factory([NewsletterManager::class, 'create']),
+    // instead of:
+    NewsletterManager::class => factory([NewsletterManager::class, 'create'], NewsletterManager::class),
+];
 ```
 
 ## Aliases
