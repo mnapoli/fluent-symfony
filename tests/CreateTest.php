@@ -4,19 +4,15 @@ namespace Fluent\Test;
 
 use function Fluent\create;
 use function Fluent\get;
-use Fluent\PhpConfigLoader;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Test create() definitions.
  */
-class CreateTest extends TestCase
+class CreateTest extends BaseContainerTest
 {
     public function test_create_with_class_name_provided()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => create('stdClass'),
         ]);
         self::assertInstanceOf('stdClass', $container->get('foo'));
@@ -24,8 +20,7 @@ class CreateTest extends TestCase
 
     public function test_create_with_class_name_as_array_key()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'stdClass' => create(),
         ]);
         self::assertInstanceOf('stdClass', $container->get('stdClass'));
@@ -41,8 +36,7 @@ class CreateTest extends TestCase
         };
         $className = get_class($fixture);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => create($className)
                 ->arguments('abc', 'def'),
         ]);
@@ -56,8 +50,7 @@ class CreateTest extends TestCase
         };
         $className = get_class($fixture);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => create($className)
                 ->property('foo', 'bar'),
         ]);
@@ -74,8 +67,7 @@ class CreateTest extends TestCase
         };
         $className = get_class($fixture);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => create($className)
                 ->method('setSomething', 'abc', 'def'),
         ]);
@@ -93,8 +85,7 @@ class CreateTest extends TestCase
         };
         $className = get_class($fixture);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             $className => create()
                 ->method('increment')
                 ->method('increment'),
@@ -104,9 +95,7 @@ class CreateTest extends TestCase
         self::assertEquals(2, $class->count);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_injected()
     {
         $fixture = new class(null) {
@@ -117,8 +106,7 @@ class CreateTest extends TestCase
         };
         $className = get_class($fixture);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => create($className)
                 ->arguments(get('stdClass')),
             'stdClass' => create(),
@@ -126,9 +114,7 @@ class CreateTest extends TestCase
         self::assertInstanceOf('stdClass', $container->get('foo')->argument);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function missing_services_can_be_injected_with_null_value()
     {
         $fixture = new class(null) {
@@ -138,17 +124,15 @@ class CreateTest extends TestCase
             }
         };
         $className = get_class($fixture);
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+
+        $container = $this->createContainerWithConfig([
             'foo' => create($className)
                 ->arguments(get('Bar')->nullIfMissing())
         ]);
         self::assertNull($container->get('foo')->argument);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function missing_services_can_be_injected_in_method_with_no_method_call()
     {
         $fixture = new class() {
@@ -159,17 +143,15 @@ class CreateTest extends TestCase
             }
         };
         $className = get_class($fixture);
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+
+        $container = $this->createContainerWithConfig([
             'foo' => create($className)
                 ->method('setArgument', get('Bar')->ignoreIfMissing())
         ]);
         self::assertEquals(3, $container->get('foo')->argument);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function parameters_can_be_injected()
     {
         $fixture = new class(null) {
@@ -180,8 +162,7 @@ class CreateTest extends TestCase
         };
         $className = get_class($fixture);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => create($className)
                 ->arguments('%abc%'),
             'abc' => 'def',
@@ -189,13 +170,10 @@ class CreateTest extends TestCase
         self::assertEquals('def', $container->get('foo')->argument);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_tagged()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'bar' => create('stdClass')
                 ->tag('foo'),
         ]);
@@ -203,13 +181,10 @@ class CreateTest extends TestCase
         self::assertArrayHasKey('bar', $container->findTaggedServiceIds('foo'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_tagged_with_attributes()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'bar' => create('stdClass')
                 ->tag('foo', ['alias' => 'baz']),
         ]);
@@ -218,13 +193,10 @@ class CreateTest extends TestCase
         self::assertEquals('baz', $tagged['bar'][0]['alias']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_tagged_multiple_times()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'bar' => create('stdClass')
                 ->tag('foo')
                 ->tag('baz'),
@@ -233,52 +205,40 @@ class CreateTest extends TestCase
         self::assertTrue($container->findDefinition('bar')->hasTag('baz'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_marked_as_private()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'bar' => create('stdClass')
                 ->private()
         ]);
-        self::assertFalse($container->findDefinition('bar')->isPublic());
+        self::assertFalse($container->has('bar'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_marked_as_unshared()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'bar' => create('stdClass')
                 ->unshared()
         ]);
         self::assertFalse($container->get('bar') === $container->get('bar'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_deprecated()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'bar' => create('stdClass')
                 ->deprecate()
         ]);
         self::assertTrue($container->findDefinition('bar')->isDeprecated());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_deprecated_providing_a_template_message()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'bar' => create('stdClass')
                 ->deprecate('The "%service_id%" service is deprecated.')
         ]);

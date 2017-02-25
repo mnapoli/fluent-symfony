@@ -5,18 +5,15 @@ namespace Fluent\Test;
 use function Fluent\autowire;
 use function Fluent\create;
 use Fluent\PhpConfigLoader;
-use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Test autowire() definitions.
  */
-class AutowireTest extends TestCase
+class AutowireTest extends BaseContainerTest
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function service_can_be_created_as_autowired()
     {
         $autowiredClass = new class(new stdClass) {
@@ -27,19 +24,15 @@ class AutowireTest extends TestCase
         };
         $autowiredClassName = get_class($autowiredClass);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             stdClass::class => create(stdClass::class),
-            'foo'           => autowire($autowiredClassName),
+            'foo' => autowire($autowiredClassName),
         ]);
-        $container->compile();
 
         self::assertInstanceOf(stdClass::class, $container->get('foo')->argument);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function service_can_be_created_as_autowired_without_class_name()
     {
         $autowiredClass = new class(new stdClass) {
@@ -50,19 +43,15 @@ class AutowireTest extends TestCase
         };
         $autowiredClassName = get_class($autowiredClass);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
-            stdClass::class     => create(stdClass::class),
+        $container = $this->createContainerWithConfig([
+            stdClass::class => create(stdClass::class),
             $autowiredClassName => autowire(),
         ]);
-        $container->compile();
 
         self::assertInstanceOf(stdClass::class, $container->get($autowiredClassName)->argument);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function autowired_services_can_be_tagged()
     {
         $container = new ContainerBuilder;
@@ -70,13 +59,13 @@ class AutowireTest extends TestCase
             'bar' => autowire('stdClass')
                 ->tag('foo'),
         ]);
+        $container->compile();
+
         self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
         self::assertArrayHasKey('bar', $container->findTaggedServiceIds('foo'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function autowired_services_can_be_tagged_with_attributes()
     {
         $container = new ContainerBuilder;
@@ -84,14 +73,14 @@ class AutowireTest extends TestCase
             'bar' => autowire('stdClass')
                 ->tag('foo', ['alias' => 'baz']),
         ]);
+        $container->compile();
+
         $tagged = $container->findTaggedServiceIds('foo');
         self::assertArrayHasKey('alias', $tagged['bar'][0]);
         self::assertEquals('baz', $tagged['bar'][0]['alias']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function autowired_services_can_be_tagged_multiple_times()
     {
         $container = new ContainerBuilder;
@@ -100,6 +89,8 @@ class AutowireTest extends TestCase
                 ->tag('foo')
                 ->tag('baz'),
         ]);
+        $container->compile();
+
         self::assertTrue($container->findDefinition('bar')->hasTag('foo'));
         self::assertTrue($container->findDefinition('bar')->hasTag('baz'));
     }

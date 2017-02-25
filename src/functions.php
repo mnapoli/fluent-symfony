@@ -7,7 +7,6 @@ use Fluent\DefinitionHelper\AliasDefinitionHelper;
 use Fluent\DefinitionHelper\CreateDefinitionHelper;
 use Fluent\DefinitionHelper\ExtensionConfiguration;
 use Fluent\DefinitionHelper\FactoryDefinitionHelper;
-use Fluent\Reference;
 
 // This `if` avoids errors if importing the file twice
 if (!function_exists('Fluent\create')) {

@@ -5,34 +5,25 @@ namespace Fluent\Test;
 use function Fluent\create;
 use function Fluent\factory;
 use function Fluent\get;
-use Fluent\PhpConfigLoader;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Test factory() definitions.
  */
-class FactoryTest extends TestCase
+class FactoryTest extends BaseContainerTest
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function create_a_service_using_a_factory()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => factory([self::class, 'foo']),
         ]);
         self::assertInstanceOf('stdClass', $container->get('foo'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function arguments_can_be_passed_to_the_factory()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => factory([self::class, 'bar'])
                 ->arguments('abc', 'def'),
         ]);
@@ -40,13 +31,10 @@ class FactoryTest extends TestCase
         self::assertEquals('def', $container->get('foo')->arg2);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function services_can_be_injected_in_arguments()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => factory([self::class, 'bar'])
                 ->arguments(get('abc'), ''),
             'abc' => create('stdClass'),
@@ -54,13 +42,10 @@ class FactoryTest extends TestCase
         self::assertInstanceOf('stdClass', $container->get('foo')->arg1);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function parameters_can_be_injected_in_arguments()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => factory([self::class, 'bar'])
                 ->arguments('%abc%', ''),
             'abc' => 'def',

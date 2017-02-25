@@ -2,40 +2,33 @@
 
 namespace Fluent\Test;
 
-use Fluent\PhpConfigLoader;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use function Fluent\alias;
 use function Fluent\create;
 
 /**
  * Test alias() definitions.
  */
-class AliasTest extends TestCase
+class AliasTest extends BaseContainerTest
 {
-    public function test_alias_service()
+    /** @test */
+    public function services_can_be_aliased()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'foo' => alias('bar'),
             'bar' => create('stdClass'),
         ]);
         self::assertInstanceOf('stdClass', $container->get('foo'));
     }
 
-    /**
-     * @test
-     */
-    public function alias_can_be_marked_as_private()
+    /** @test */
+    public function aliases_can_be_marked_as_private()
     {
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
-            'foo' => alias('bar')
+        $container = $this->createContainerWithConfig([
+            'foo' => alias('bar'),
+            'bar' => create('stdClass')
                 ->private(),
-            'bar' => create('stdClass'),
         ]);
-
-        self::assertFalse($container->getAlias('foo')->isPublic());
         self::assertInstanceOf('stdClass', $container->get('foo'));
+        self::assertFalse($container->has('bar'));
     }
 }

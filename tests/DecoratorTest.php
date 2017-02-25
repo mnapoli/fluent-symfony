@@ -4,17 +4,12 @@ namespace Fluent\Test;
 
 use function Fluent\create;
 use function Fluent\get;
-use Fluent\PhpConfigLoader;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Compiler\DecoratorServicePass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class DecoratorTest extends TestCase
+class DecoratorTest extends BaseContainerTest
 {
-    /**
-     * @test
-     */
-    public function services_can_decorate_an_existing_service() {
+    /** @test */
+    public function services_can_decorate_an_existing_service()
+    {
         $decorated = new class() {};
         $decorating = new class(null) {
             public function __construct($argument) {
@@ -24,23 +19,21 @@ class DecoratorTest extends TestCase
         $decoratedClassName = get_class($decorated);
         $decoratingClassName = get_class($decorating);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'decorated' => create($decoratedClassName),
             'decorating' => create($decoratingClassName)
                 ->decorate('decorated')
                 ->arguments(get('decorating.inner')),
         ]);
-        $this->process($container);
 
         self::assertInstanceOf($decoratingClassName, $container->get('decorated'));
-        self::assertTrue($container->has('decorating.inner'));
+        self::assertInstanceOf($decoratedClassName, $container->get('decorated')->argument);
+        self::assertSame($container->get('decorated'), $container->get('decorating'));
     }
 
-    /**
-     * @test
-     */
-    public function services_can_decorate_an_existing_service_while_renaming_it() {
+    /** @test */
+    public function services_can_decorate_an_existing_service_while_renaming_it()
+    {
         $decorated = new class() {};
         $decorating = new class(null) {
             public function __construct($argument) {
@@ -50,33 +43,37 @@ class DecoratorTest extends TestCase
         $decoratedClassName = get_class($decorated);
         $decoratingClassName = get_class($decorating);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'decorated' => create($decoratedClassName),
             'decorating' => create($decoratingClassName)
-                ->decorate('decorated', 'decorating.foo')
-                ->arguments(get('decorating.foo')),
+                ->decorate('decorated', 'decorated.foo')
+                ->arguments(get('decorated.foo')),
         ]);
-        $this->process($container);
 
         self::assertInstanceOf($decoratingClassName, $container->get('decorated'));
-        self::assertTrue($container->has('decorating.foo'));
+        self::assertInstanceOf($decoratedClassName, $container->get('decorated')->argument);
     }
 
-    /**
-     * @test
-     */
-    public function services_can_decorate_an_existing_decorated_service() {
+    /** @test */
+    public function services_can_decorate_an_already_decorated_service()
+    {
         $decorated = new class() {};
-        $decorating = new class() {};
-        $decorating2 = new class() {};
+        $decorating = new class(null) {
+            public function __construct($argument) {
+                $this->argument = $argument;
+            }
+        };
+        $decorating2 = new class(null) {
+            public function __construct($argument) {
+                $this->argument = $argument;
+            }
+        };
 
         $decoratedClassName = get_class($decorated);
         $decoratingClassName = get_class($decorating);
         $decorating2ClassName = get_class($decorating2);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'decorated' => create($decoratedClassName),
             'decorating' => create($decoratingClassName)
                 ->decorate('decorated')
@@ -87,27 +84,32 @@ class DecoratorTest extends TestCase
                 ->arguments(get('decorating2.inner'))
             ,
         ]);
-        $this->process($container);
 
         self::assertInstanceOf($decorating2ClassName, $container->get('decorated'));
-        self::assertTrue($container->has('decorating.inner'));
-        self::assertTrue($container->has('decorating2.inner'));
+        self::assertInstanceOf($decoratingClassName, $container->get('decorated')->argument);
+        self::assertInstanceOf($decoratedClassName, $container->get('decorated')->argument->argument);
     }
 
-    /**
-     * @test
-     */
-    public function services_can_decorate_an_existing_decorated_service_with_priorities() {
+    /** @test */
+    public function services_can_decorate_an_existing_decorated_service_with_priorities()
+    {
         $decorated = new class() {};
-        $decorating = new class() {};
-        $decorating2 = new class() {};
+        $decorating = new class(null) {
+            public function __construct($argument) {
+                $this->argument = $argument;
+            }
+        };
+        $decorating2 = new class(null) {
+            public function __construct($argument) {
+                $this->argument = $argument;
+            }
+        };
 
         $decoratedClassName = get_class($decorated);
         $decoratingClassName = get_class($decorating);
         $decorating2ClassName = get_class($decorating2);
 
-        $container = new ContainerBuilder;
-        (new PhpConfigLoader($container))->load([
+        $container = $this->createContainerWithConfig([
             'decorated' => create($decoratedClassName),
             'decorating' => create($decoratingClassName)
                 ->decorate('decorated', null, 1)
@@ -118,20 +120,9 @@ class DecoratorTest extends TestCase
                 ->arguments(get('decorating2.inner'))
             ,
         ]);
-        $this->process($container);
 
         self::assertInstanceOf($decoratingClassName, $container->get('decorated'));
-        self::assertTrue($container->has('decorating.inner'));
-        self::assertTrue($container->has('decorating2.inner'));
-    }
-
-    /**
-     * The container needs to be procecessed by the DecoratorServicePass to resolve decorators service ids
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function process(ContainerBuilder $container) {
-        $repeatedPass = new DecoratorServicePass();
-        $repeatedPass->process($container);
+        self::assertInstanceOf($decorating2ClassName, $container->get('decorated')->argument);
+        self::assertInstanceOf($decoratedClassName, $container->get('decorated')->argument->argument);
     }
 }
