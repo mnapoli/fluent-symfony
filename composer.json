@@ -9,6 +9,11 @@
             "src/functions.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Fluent\\Test\\": "tests"
+        }
+    },
     "require": {
         "php": ">=7.0",
         "symfony/dependency-injection": "^3.2",

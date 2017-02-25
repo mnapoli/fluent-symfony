@@ -13,9 +13,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
  */
 class ExtensionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function configures_an_extension()
     {
         // The container extension class

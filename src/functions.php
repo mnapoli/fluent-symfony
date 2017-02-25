@@ -7,7 +7,6 @@ use Fluent\DefinitionHelper\AliasDefinitionHelper;
 use Fluent\DefinitionHelper\CreateDefinitionHelper;
 use Fluent\DefinitionHelper\ExtensionConfiguration;
 use Fluent\DefinitionHelper\FactoryDefinitionHelper;
-use Fluent\Reference;
 
 // This `if` avoids errors if importing the file twice
 if (!function_exists('Fluent\create')) {
@@ -43,10 +42,12 @@ if (!function_exists('Fluent\create')) {
      * Create a service using a factory
      *
      * @param string|array $factory A PHP function or an array containing a class/Reference and a method to call
+     * @param string|null $className Class name of the object.
+     *                               If null, the name of the entry (in the container) will be used as class name.
      */
-    function factory($factory) : FactoryDefinitionHelper
+    function factory($factory, string $className = null) : FactoryDefinitionHelper
     {
-        return new FactoryDefinitionHelper($factory);
+        return new FactoryDefinitionHelper($factory, $className);
     }
 
     /**
