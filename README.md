@@ -4,6 +4,27 @@
 
 This package offers an alternative configuration syntax for Symfony's container, inspired by [PHP-DI's configuration](http://php-di.org/doc/php-definitions.html).
 
+- [Why?](#why)
+- [Comparison with existing formats](#comparison-with-existing-formats)
+- [Installation](#installation)
+- [Syntax](#syntax)
+- [Parameters](#parameters)
+- [Services](#services)
+    - [Using the class name as the entry ID](#using-the-class-name-as-the-entry-id)
+    - [Autowiring](#autowiring)
+    - [Constructor arguments](#constructor-arguments)
+    - [Dependencies](#dependencies)
+    - [Setter injection](#setter-injection)
+    - [Property injection](#property-injection)
+    - [Optional service references](#optional-service-references)
+    - [Decorated services](#decorated-services)
+    - [Non shared services](#non-shared-services)
+- [Factories](#factories)
+- [Aliases](#aliases)
+- [Tags](#tags)
+- [Imports](#imports)
+- [Extensions](#extensions)
+
 ## Why?
 
 The main goal is to benefit from stricter analysis from the PHP engine and IDEs. If you are interested you can also read [why YAML was replaced by a similar syntax in PHP-DI 5](http://php-di.org/news/06-php-di-4-0-new-definitions.html).
@@ -315,7 +336,7 @@ services:
             host: smtp.google.com
 ```
 
-#### Optionnal service references
+#### Optional service references
 
 Services can have [optional dependencies](https://symfony.com/doc/current/service_container/optional_dependencies.html), so that the dependency is not required for it to work.
 
@@ -389,7 +410,7 @@ services:
         public: false
 ```
 
-### Decorated services
+#### Decorated services
 
 Services can be [decorated](https://symfony.com/doc/current/service_container/service_decoration.html) with the `decorate()` method
 
