@@ -391,6 +391,7 @@ services:
         class:     AppBundle\Newsletter\NewsletterManager
         calls:
             - [setMailer, ['@?app.mailer']]
+```
 
 #### Private Services
 
