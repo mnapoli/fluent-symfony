@@ -62,6 +62,21 @@ class FactoryTest extends BaseContainerTest
         self::assertEquals('def', $container->get('foo')->arg1);
     }
 
+    /** @test */
+    public function services_can_be_marked_as_synthetic()
+    {
+        $container = $this->createContainerWithConfig([
+            'bar' => factory([self::class, 'foo'])
+                ->synthetic()
+        ]);
+        $foo = new class() {
+            public $foo;
+        };
+        $container->set('bar', $foo);
+        self::assertTrue(is_object($container->get('bar' )));
+        self::assertNotInstanceOf('stdClass', $container->get('bar' ));
+    }
+
     public static function foo()
     {
         return new \stdClass();
