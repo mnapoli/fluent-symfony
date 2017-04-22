@@ -128,6 +128,16 @@ class CreateDefinitionHelper implements DefinitionHelper
     }
 
     /**
+     * Marks the definition as synthetic
+     */
+    public function synthetic() : self
+    {
+        $this->definition->setSynthetic(true);
+
+        return $this;
+    }
+
+    /**
      * Marks the definition as private
      */
     public function private() : self

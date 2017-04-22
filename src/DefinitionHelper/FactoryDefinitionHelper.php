@@ -50,4 +50,14 @@ class FactoryDefinitionHelper implements DefinitionHelper
 
         return $this;
     }
+
+    /**
+     * Marks the definition as synthetic
+     */
+    public function synthetic() : self
+    {
+        $this->definition->setSynthetic(true);
+
+        return $this;
+    }
 }

@@ -226,6 +226,19 @@ class CreateTest extends BaseContainerTest
     }
 
     /** @test */
+    public function services_can_be_marked_as_synthetic()
+    {
+        $container = $this->createContainerWithConfig([
+            'bar' => create()
+                ->synthetic()
+        ]);
+
+        $foo = new \stdClass;
+        $container->set('bar', $foo);
+        self::assertInstanceOf('stdClass', $container->get('bar' ));
+    }
+
+    /** @test */
     public function services_can_be_deprecated()
     {
         $container = $this->createContainerWithConfig([

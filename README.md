@@ -488,6 +488,27 @@ services:
     app.phpmailer:
         class: AppBundle\Mail\PhpMailer
         shared: false
+``````
+
+#### Synthetic services
+
+Services can be injected [at runtime](http://symfony.com/doc/current/service_container/synthetic_services.html). You can inject a class instance as service, instead of configuring the container to create a new instance using the `synthetic()` function helper:
+
+```php
+return [
+    'app.phpmailer' => create(PhpMailer::class)
+        ->synthetic(),
+];
+```
+
+This is the same as:
+
+```yaml
+
+services:
+    app.phpmailer:
+        class: AppBundle\Mail\PhpMailer
+        synthetic: true
 ```
 
 ## Factories
